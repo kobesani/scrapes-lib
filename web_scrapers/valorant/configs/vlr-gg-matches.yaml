@@ -1,0 +1,192 @@
+base_url: https://www.vlr.gg
+# selectors need to be defined in order of their dependencies, main is always defined
+selectors:
+  - attribute: games
+    query: "//div[contains(@class, 'vm-stats-game ') and re:test(@data-game-id, '^\\d+$')]"
+    query_type: xpath
+    children:
+      - agent
+      - player_id
+      - player_name
+      - map_name
+      - game_id
+      - kills
+      - deaths
+      - assists
+      - kd_diff
+      - first_bloods
+      - first_deaths
+      - fkd_diff
+      - acs
+      - kast
+      - adr
+      - hs
+  - attribute: teams
+    parent: games
+    query: "./div[@class='vm-stats-game-header']/div[contains(@class, 'team')]"
+    query_type: xpath
+    children:
+      - team_name
+      - team_result
+      - team_score
+      - team_ct_score
+      - team_t_score
+      - attack_start
+  - attribute: patch
+    query: "//div/div[@class='wf-tooltip']"
+    # query: normalize-space(//div/div[@class='wf-tooltip']/text())
+    query_type: xpath
+    # regex: Patch (?P<patch>\d+(\.\d+)+)
+    parent: main
+    # type_converter: float
+    # replicator: augment_only
+  - attribute: patch_old
+      query: "//div[@class='match-header-date']/div[not(@class)]/div[not(@class)]"
+      query_type: xpath
+      # xpath: normalize-space(//div[@class='match-header-date']/div[not(@class)]/div[not(@class)])
+      # regex: Patch (?P<patch_old>\d+(\.\d+)+)
+      parent: main
+      # type_converter: float
+      # replicator: augment_only
+
+  # - attribute: team_id
+  #   xpath: //a[contains(@class, 'match-header-link wf-link-hover mod-')]/@href
+  #   regex: /(?P<team_id>\d+)/
+  #   parent_selector: main
+  #   type_converter: int
+  #   replicator: augment_then_interleave
+
+  # - attribute: team_name
+  #   xpath: normalize-space(./div[not(@class)]/div[@class='team-name']/text())
+  #   regex: null
+  #   parent_selector: teams
+  #   type_converter: null
+  #   replicator: augment_only
+
+  # - attribute: team_result
+  #   xpath: ./div[contains(@class, 'score')]/@class
+  #   regex: null
+  #   parent_selector: teams
+  #   type_converter: winner
+  #   replicator: augment_only
+
+  # - attribute: team_score
+  #   xpath: ./div[contains(@class, 'score')]/text()
+  #   regex: ^\s*(?P<team_score>\d+)\s*$
+  #   parent_selector: teams
+  #   type_converter: int
+  #   replicator: augment_only
+  # - attribute: team_ct_score
+  #   xpath: ./div[not(@class)]/span[@class='mod-ct']/text()
+  #   regex: null
+  #   parent_selector: teams
+  #   type_converter: int
+  #   replicator: augment_only
+  # - attribute: team_t_score
+  #   xpath: ./div[not(@class)]/span[@class='mod-t']/text()
+  #   regex: null
+  #   parent_selector: teams
+  #   type_converter: int
+  #   replicator: augment_only
+  # - attribute: attack_start
+  #   xpath: ./div/span[1]/@class
+  #   regex: null
+  #   parent_selector: teams
+  #   type_converter: attack_start
+  #   replicator: augment_only
+  # - attribute: agent
+  #   xpath: ./div/div/table/tbody/tr/td[@class='mod-agents']/div/span/img/@title
+  #   regex: null
+  #   parent_selector: games
+  #   type_converter: null
+  #   replicator: null
+  # - attribute: player_id
+  #   xpath: ./div/div/table/tbody/tr/td[@class='mod-player']/div/a/@href
+  #   regex: /(?P<player_id>\d+)/
+  #   parent_selector: games
+  #   type_converter: int
+  #   replicator: null
+  # - attribute: player_name
+  #   xpath: ./div/div/table/tbody/tr/td[@class='mod-player']/div[not(@class)]/a/div[@class='text-of']/text()
+  #   regex: null
+  #   parent_selector: games
+  #   type_converter: strip
+  #   replicator: null
+  # - attribute: map_name
+  #   xpath: normalize-space(./div[@class='vm-stats-game-header']/div[@class='map']/div/span/text())
+  #   regex: null
+  #   parent_selector: games
+  #   type_converter: null
+  #   replicator: augment_only
+  # - attribute: game_id
+  #   xpath: "@data-game-id"
+  #   regex: null
+  #   parent_selector: games
+  #   type_converter: int
+  #   replicator: augment_only
+  # - attribute: kills
+  #   xpath: ./div/div/table/tbody/tr/td[contains(@class, 'mod-vlr-kills')]/span/span[contains(@class, 'mod-both')]/text()
+  #   regex: null
+  #   parent_selector: games
+  #   type_converter: int
+  #   replicator: null
+  # - attribute: deaths
+  #   xpath: ./div/div/table/tbody/tr/td[contains(@class, 'mod-vlr-deaths')]/span/span/span[@class='side mod-both']/text()
+  #   regex: null
+  #   parent_selector: games
+  #   type_converter: int
+  #   replicator: null
+  # - attribute: assists
+  #   xpath: ./div/div/table/tbody/tr/td[contains(@class, 'mod-vlr-assists')]/span/span[contains(@class, 'mod-both')]/text()
+  #   regex: null
+  #   parent_selector: games
+  #   type_converter: int
+  #   replicator: null
+  # - attribute: kd_diff
+  #   xpath: ./div/div/table/tbody/tr/td[contains(@class, 'mod-kd-diff')]/span/span[contains(@class, 'mod-both')]/text()
+  #   regex: null
+  #   parent_selector: games
+  #   type_converter: int
+  #   replicator: null
+  # - attribute: first_bloods
+  #   xpath: ./div/div/table/tbody/tr/td[contains(@class, 'mod-fb')]/span/span[contains(@class, 'mod-both')]/text()
+  #   regex: null
+  #   parent_selector: games
+  #   type_converter: int
+  #   replicator: null
+  # - attribute: first_deaths
+  #   xpath: ./div/div/table/tbody/tr/td[contains(@class, 'mod-fd')]/span/span[contains(@class, 'mod-both')]/text()
+  #   regex: null
+  #   parent_selector: games
+  #   type_converter: int
+  #   replicator: null
+  # - attribute: fkd_diff
+  #   xpath: ./div/div/table/tbody/tr/td[contains(@class, 'mod-fk-diff')]/span/span[contains(@class, 'mod-both')]/text()
+  #   regex: null
+  #   parent_selector: games
+  #   type_converter: int
+  #   replicator: null
+  # - attribute: acs
+  #   xpath: ./div/div/table/tbody/tr/td[3]/span/span[contains(@class, 'mod-both')]/text()
+  #   regex: null
+  #   parent_selector: games
+  #   type_converter: int
+  #   replicator: null
+  # - attribute: kast
+  #   xpath: ./div/div/table/tbody/tr/td[8]/span/span[contains(@class, 'mod-both')]/text()
+  #   regex: null
+  #   parent_selector: games
+  #   type_converter: percent
+  #   replicator: null
+  # - attribute: adr
+  #   xpath: ./div/div/table/tbody/tr/td[9]/span/span[contains(@class, 'mod-both')]/text()
+  #   regex: null
+  #   parent_selector: games
+  #   type_converter: int
+  #   replicator: null
+  # - attribute: hs
+  #   xpath: ./div/div/table/tbody/tr/td[10]/span/span[contains(@class, 'mod-both')]/text()
+  #   regex: null
+  #   parent_selector: games
+  #   type_converter: percent
+  #   replicator: null

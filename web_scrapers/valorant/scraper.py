@@ -37,6 +37,7 @@ class Valorant(Scraper):
     ) -> requests.Response:
         pass
 
+    @uplink.get("/{match_id}/{match_stub}")
     def get_match(
         self,
         match_id: uplink.Path("match_id", type=int),
