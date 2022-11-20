@@ -1,0 +1,63 @@
+base_url: https://vlr.gg
+selectors:
+  - attribute: cards
+    query: "//div[@class='wf-card']"
+    query_type: xpath
+    children:
+      - matches
+
+  - attribute: matches
+    query: "./a[contains(@class, 'wf-module-item match-item')]"
+    query_type: xpath
+    parent: cards
+    children:
+      - times
+      - completed
+
+  - attribute: start_times
+    parent: matches
+    query: "./div[@class='match-item-time']"
+    query_type: xpath
+    text: normalize_space
+
+  - attribute: status
+    parent: matches
+    query: "./div[@class='match-item-eta']/div[contains(@class, 'ml ')]/div[@class='ml-status']"
+    query_type: xpath
+    text: normalize_space
+
+  - attribute: start_date
+    parent: matches
+    query: "../preceding-sibling::div[@class='wf-label mod-large'][1]"
+    query_type: xpath
+    text: normalize_space
+
+  - attribute: stakes
+    parent: matches
+    query_type: xpath
+    query: "./div[contains(@class, 'match-item-event')]/div[@class='match-item-event-series text-of']"
+    text: normalize_space
+
+  - attribute: event
+    parent: matches
+    query_type: xpath
+    query: ./div[@class='match-item-event text-of']/*[not(div[@class='match-item-event-series text-of'])]
+    text: normalize_space
+
+  - attribute: player_stats
+    parent: matches
+    query_type: xpath
+    query: "./div[@class='match-item-vod']/div[@class='wf-tag mod-big'][2]"
+    text: normalize_space
+
+  - attribute: map_stats
+    parent: matches
+    query_type: xpath
+    query: "./div[@class='match-item-vod']/div[@class='wf-tag mod-big'][1]"
+    text: normalize_space
+
+  - attribute: link
+    parent: matches
+    query_type: xpath
+    query: "@href"
+    text: null
