@@ -41,7 +41,7 @@ selectors:
   - attribute: event
     parent: matches
     query_type: xpath
-    query: ./div[@class='match-item-event text-of']/*[not(div[@class='match-item-event-series text-of'])]
+    query: "./div[@class='match-item-event text-of']/*[not(div[@class='match-item-event-series text-of'])]"
     text: normalize_space
 
   - attribute: player_stats

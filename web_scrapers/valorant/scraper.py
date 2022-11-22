@@ -12,7 +12,7 @@ from google.cloud import storage
 from io import BytesIO
 from typing import Any, List
 
-from scrapes_lib.scrapers import Scraper
+from scrapes_lib import Scraper
 from scrapes_lib.schemas import ResultData
 
 def timestamp_in_range(
