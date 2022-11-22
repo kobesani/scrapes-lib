@@ -18,6 +18,7 @@ class SelectorConfig:
     children: Optional[List[str]] = None
     _selector: Optional[Union[parsel.Selector, parsel.SelectorList]] = None
     text: Optional[Literal["normalize_space", "text"]] = None
+    count: int = 1
 
     def selector(
         self, parent_selector: Union[parsel.Selector, parsel.SelectorList]
