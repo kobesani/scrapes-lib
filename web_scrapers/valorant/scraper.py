@@ -15,6 +15,7 @@ from typing import Any, List
 from scrapes_lib import Scraper
 from scrapes_lib.schemas import ResultData
 
+
 def timestamp_in_range(
     query: ResultData, start: pendulum.datetime, end: pendulum.datetime
 ) -> bool:
@@ -45,6 +46,21 @@ class Valorant(Scraper):
     ) -> requests.Response:
         pass
 
+    def scrape_results_pages_in_range(self, start: int = 1, end: int = 1):
+        # first_page_data = self.scrape_endpoint("get_results_page", page=1)
+        results = []
+        for page in range(start, end + 1):
+            print(f"Scraping page {page}")
+            data = self.scrape_endpoint("get_results_page", page)
+
+            results += [
+                {
+                    attribute: value
+                    for attribute, value in zip(data.keys(), row)
+                }
+                for row in zip(*data.values())
+            ]
+        return results
 
 
 class OldValorantResults(uplink.Consumer):

@@ -51,11 +51,11 @@ class Scraper(uplink.Consumer):
         response = getattr(self, endpoint)(*args, **kwargs)
         selectors_dict = self.get_selectors(response)
 
-        return [
-            TextUtils.apply(
+        return {
+            selector_config.attribute: TextUtils.apply(
                 selector_config.text,
                 selectors_dict[selector_config.attribute],
             )
             for selector_config in self.selector_configs
             if selector_config.is_leaf
-        ]
+        }
